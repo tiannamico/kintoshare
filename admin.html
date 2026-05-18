@@ -395,6 +395,29 @@ input,select,textarea{font-family:inherit}
 </style>
 
 <body>
+<!-- PANTALLA LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <img src="data:image/png;base64,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" class="login-logo" alt="KintoShare">
+    <div class="login-title">Bienvenido</div>
+    <div class="login-sub">Ingresá con tu cuenta</div>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-field">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="tu@email.com" autocomplete="email">
+    </div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter') loginSubmit()">
+    </div>
+    <button class="login-btn" id="login-btn" onclick="loginSubmit()">Ingresar</button>
+    <div class="login-forgot">
+      <a onclick="resetPassword()">¿Olvidaste tu contraseña?</a>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- SUCURSAL SELECTOR -->
@@ -441,6 +464,13 @@ input,select,textarea{font-family:inherit}
       </div>
       <div class="nav-item" onclick="navTo('checklist')" id="nav-checklist">
         <span class="nav-icon">&#9989;</span> Check List
+      </div>
+      <div class="nav-group-title">Administración</div>
+      <div class="nav-item" onclick="navTo('usuarios')" id="nav-usuarios">
+        <span class="nav-icon">&#128100;</span> Usuarios
+      </div>
+      <div class="nav-item" onclick="logoutBtn()" style="color:rgba(255,255,255,0.5)">
+        <span class="nav-icon">&#128274;</span> Cerrar sesión
       </div>
     </nav>
     <div class="sidebar-bottom">
@@ -598,6 +628,14 @@ input,select,textarea{font-family:inherit}
         <div class="flota-grid" id="flota-grid"></div>
       </div>
 
+      <!-- ── USUARIOS ── -->
+      <div class="view" id="view-usuarios">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+          <button class="btn btn-primary" onclick="abrirModalUsuario()">+ Agregar usuario</button>
+        </div>
+        <div id="usuarios-list"></div>
+      </div>
+
       <!-- ── CHECK LIST ── -->
       <div class="view" id="view-checklist">
         <div style="background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:20px;text-align:center;color:var(--text-muted)">
@@ -633,6 +671,10 @@ input,select,textarea{font-family:inherit}
     <div class="mobile-nav-item" onclick="navTo('checklist');nuevaPlanilla()" id="mnav-checklist">
       <span class="mobile-nav-icon">&#9989;</span>
       <span class="mobile-nav-label">Nuevo</span>
+    </div>
+    <div class="mobile-nav-item" onclick="navTo('usuarios')" id="mnav-usuarios">
+      <span class="mobile-nav-icon">&#128100;</span>
+      <span class="mobile-nav-label">Usuarios</span>
     </div>
   </nav>
 
@@ -675,6 +717,49 @@ input,select,textarea{font-family:inherit}
   </div>
 </div>
 
+<!-- MODAL USUARIO -->
+<div class="modal-overlay" id="modal-usuario">
+  <div class="modal-box">
+    <div class="modal-title">Agregar usuario</div>
+    <div class="modal-sub">El usuario recibirá un email para activar su cuenta</div>
+    <div class="form-group">
+      <label class="form-label">Nombre completo</label>
+      <input type="text" class="form-input" id="u-nombre" placeholder="Juan Pérez">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="u-email" placeholder="juan@nipponcar.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Contraseña inicial</label>
+      <input type="text" class="form-input" id="u-pass" placeholder="Mínimo 6 caracteres">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Rol</label>
+        <select class="form-select" id="u-rol">
+          <option value="operador">Operador</option>
+          <option value="admin">Administrador</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sucursal</label>
+        <select class="form-select" id="u-sucursal">
+          <option value="todas">Todas</option>
+          <option value="neuquen">Neuquén</option>
+          <option value="bariloche">Bariloche</option>
+          <option value="sanmartin">San Martín</option>
+        </select>
+      </div>
+    </div>
+    <div id="usuario-error" style="display:none;background:#fff0f0;border:1px solid #fca5a5;border-radius:8px;padding:9px;font-size:13px;color:#b91c1c;margin-bottom:10px"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="document.getElementById('modal-usuario').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="crearUsuario()">Crear usuario</button>
+    </div>
+  </div>
+</div>
+
 <!-- CHECK LIST MODAL (pantalla completa) -->
 <div class="modal-overlay" id="modal-checklist" style="padding:0;align-items:stretch">
   <div style="background:var(--surface);width:100%;max-width:680px;margin:0 auto;overflow-y:auto;position:relative">
@@ -689,10 +774,10 @@ input,select,textarea{font-family:inherit}
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXfFz44rwfHUnUOvRTbhxooFTGADDty38",
@@ -703,92 +788,172 @@ const firebaseConfig = {
   appId: "1:909495177763:web:19384082d2a78b1cbf1796"
 };
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const fbApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db  = getFirestore(fbApp);
+const auth = getAuth(fbApp);
 const COL = 'planillas';
 
-// ── Exponer funciones globales para que el resto del script las use ──────────
+// ── Firestore (base de datos) ────────────────────────────────────────────────
 window.FB = {
   async save(planilla) {
     try {
-      // Las firmas y canvases pueden ser muy grandes — guardarlas aparte
       const slim = {...planilla};
-      // Firestore tiene límite de 1MB por doc — guardar cData y sigs en subcollection
-      const cDataBig  = slim.cData  || {};
-      const sigsBig   = slim.sigs   || {};
-      delete slim.cData;
-      delete slim.sigs;
-
+      const cDataBig = slim.cData || {};
+      const sigsBig  = slim.sigs  || {};
+      delete slim.cData; delete slim.sigs;
       const ref = doc(db, COL, planilla.id);
       await setDoc(ref, slim);
-
-      // Guardar canvas data en subcollection 'media'
       const mediaRef = doc(db, COL, planilla.id, 'media', 'data');
       await setDoc(mediaRef, { cData: cDataBig, sigs: sigsBig });
-
       return true;
-    } catch(e) {
-      console.error('Firebase save error:', e);
-      return false;
-    }
+    } catch(e) { console.error('FB save error:', e); return false; }
   },
-
   async loadAll() {
     try {
       const snap = await getDocs(collection(db, COL));
       const planillas = [];
       for(const d of snap.docs) {
         const p = d.data();
-        // Cargar media
         try {
-          const mediaSnap = await getDoc(doc(db, COL, d.id, 'media', 'data'));
-          if(mediaSnap.exists()) {
-            const media = mediaSnap.data();
-            p.cData = media.cData || {};
-            p.sigs  = media.sigs  || {};
-          }
+          const ms = await getDoc(doc(db, COL, d.id, 'media', 'data'));
+          if(ms.exists()) { const m=ms.data(); p.cData=m.cData||{}; p.sigs=m.sigs||{}; }
         } catch(e) {}
         planillas.push(p);
       }
       return planillas;
-    } catch(e) {
-      console.error('Firebase loadAll error:', e);
-      return null;
-    }
+    } catch(e) { console.error('FB loadAll error:', e); return null; }
   },
-
   async loadOne(id) {
     try {
       const snap = await getDoc(doc(db, COL, id));
       if(!snap.exists()) return null;
       const p = snap.data();
-      const mediaSnap = await getDoc(doc(db, COL, id, 'media', 'data'));
-      if(mediaSnap.exists()) {
-        const media = mediaSnap.data();
-        p.cData = media.cData || {};
-        p.sigs  = media.sigs  || {};
-      }
+      const ms = await getDoc(doc(db, COL, id, 'media', 'data'));
+      if(ms.exists()) { const m=ms.data(); p.cData=m.cData||{}; p.sigs=m.sigs||{}; }
       return p;
-    } catch(e) {
-      console.error('Firebase loadOne error:', e);
-      return null;
-    }
+    } catch(e) { return null; }
   },
-
-  // Escuchar cambios en tiempo real en la lista
   onList(callback) {
-    return onSnapshot(collection(db, COL), async (snap) => {
-      const planillas = snap.docs.map(d => d.data());
-      callback(planillas);
+    return onSnapshot(collection(db, COL), snap => {
+      callback(snap.docs.map(d => d.data()));
     });
   }
 };
-
-// Señal de que Firebase está listo
 window.FIREBASE_READY = true;
 window.dispatchEvent(new Event('firebase-ready'));
-console.log('Firebase inicializado OK');
+
+// ── Auth ────────────────────────────────────────────────────────────────────
+window.AUTH = {
+  async login(email, password) { return signInWithEmailAndPassword(auth, email, password); },
+  async logout() { return signOut(auth); },
+  currentUser() { return auth.currentUser; },
+  async createUser(email, password, nombre, rol, sucursal) {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await setDoc(doc(db, 'usuarios', cred.user.uid), {
+      uid: cred.user.uid, email, nombre, rol, sucursal,
+      creado: new Date().toISOString(), activo: true
+    });
+    return cred.user;
+  },
+  async getUsuarios() {
+    const snap = await getDocs(collection(db, 'usuarios'));
+    return snap.docs.map(d => d.data());
+  },
+  async desactivarUsuario(uid) {
+    await setDoc(doc(db, 'usuarios', uid), { activo: false }, { merge: true });
+  },
+  async getPerfilUsuario(uid) {
+    const snap = await getDoc(doc(db, 'usuarios', uid));
+    return snap.exists() ? snap.data() : null;
+  }
+};
+
+// ── Login UI ─────────────────────────────────────────────────────────────────
+function mostrarLogin() {
+  const ls = document.getElementById('login-screen');
+  if(ls) ls.classList.remove('hidden');
+  const al = document.getElementById('app-layout');
+  if(al) al.style.display = 'none';
+  const ss = document.getElementById('suc-screen');
+  if(ss) ss.classList.add('hidden');
+  const vh = document.getElementById('view-home');
+  if(vh) document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+}
+
+function ocultarLogin() {
+  const ls = document.getElementById('login-screen');
+  if(ls) ls.classList.add('hidden');
+}
+
+window.loginSubmit = async function() {
+  const email = document.getElementById('login-email')?.value?.trim();
+  const pass  = document.getElementById('login-pass')?.value;
+  const errEl = document.getElementById('login-error');
+  const btn   = document.getElementById('login-btn');
+  if(!email || !pass) {
+    if(errEl) { errEl.textContent='Completá email y contraseña'; errEl.style.display='block'; }
+    return;
+  }
+  if(btn) { btn.disabled=true; btn.textContent='Ingresando...'; }
+  try {
+    await window.AUTH.login(email, pass);
+  } catch(e) {
+    if(btn) { btn.disabled=false; btn.textContent='Ingresar'; }
+    const msgs = {
+      'auth/user-not-found':'Email no registrado',
+      'auth/wrong-password':'Contraseña incorrecta',
+      'auth/invalid-email':'Email inválido',
+      'auth/too-many-requests':'Demasiados intentos. Esperá unos minutos.',
+      'auth/invalid-credential':'Email o contraseña incorrectos'
+    };
+    if(errEl) { errEl.textContent=msgs[e.code]||'Error: '+e.message; errEl.style.display='block'; }
+  }
+};
+
+window.logoutBtn = async function() {
+  if(!confirm('¿Cerrar sesión?')) return;
+  await window.AUTH.logout();
+};
+
+window.resetPassword = async function() {
+  const email = document.getElementById('login-email')?.value?.trim();
+  const errEl = document.getElementById('login-error');
+  if(!email) { if(errEl){errEl.textContent='Ingresá tu email primero';errEl.style.display='block';} return; }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    alert('Se envió un email para restablecer tu contraseña');
+  } catch(e) { alert('Error: '+e.message); }
+};
+
+// ── Verificar sesión ─────────────────────────────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  if(user) {
+    const perfil = await window.AUTH.getPerfilUsuario(user.uid);
+    if(perfil && perfil.activo === false) {
+      await window.AUTH.logout();
+      const errEl = document.getElementById('login-error');
+      if(errEl) { errEl.textContent='Tu cuenta fue desactivada.'; errEl.style.display='block'; }
+      mostrarLogin();
+      return;
+    }
+    window.usuarioActual = { ...(perfil||{}), uid: user.uid, email: user.email };
+    if(perfil?.sucursal && perfil.sucursal !== 'todas') {
+      window._authSucursal = perfil.sucursal;
+    }
+    ocultarLogin();
+    window.dispatchEvent(new CustomEvent('auth-ready', { detail: window.usuarioActual }));
+  } else {
+    window.usuarioActual = null;
+    mostrarLogin();
+  }
+});
 </script>
+
+
+
+
+
+
 
 <script>
 // ════════════════════════════════════════
@@ -976,6 +1141,7 @@ function navTo(view){
   else if(view==='reservas') renderTable();
   else if(view==='calendario') renderTimeline();
   else if(view==='flota') renderFlota();
+  else if(view==='usuarios') renderUsuarios();
 }
 
 // ════════════════════════════════════════
@@ -1416,6 +1582,68 @@ document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click
 // ════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════
+// ════════════════════════════════════════
+// USUARIOS
+// ════════════════════════════════════════
+function abrirModalUsuario(){
+  document.getElementById('u-nombre').value='';
+  document.getElementById('u-email').value='';
+  document.getElementById('u-pass').value='';
+  document.getElementById('usuario-error').style.display='none';
+  document.getElementById('modal-usuario').classList.add('open');
+}
+
+async function crearUsuario(){
+  const nombre=document.getElementById('u-nombre').value.trim();
+  const email=document.getElementById('u-email').value.trim();
+  const pass=document.getElementById('u-pass').value;
+  const rol=document.getElementById('u-rol').value;
+  const sucursal=document.getElementById('u-sucursal').value;
+  const errEl=document.getElementById('usuario-error');
+  if(!nombre||!email||!pass){ errEl.textContent='Completá todos los campos'; errEl.style.display='block'; return; }
+  if(pass.length<6){ errEl.textContent='La contraseña debe tener al menos 6 caracteres'; errEl.style.display='block'; return; }
+  try{
+    await window.AUTH.createUser(email,pass,nombre,rol,sucursal);
+    document.getElementById('modal-usuario').classList.remove('open');
+    toast('Usuario '+nombre+' creado ✓');
+    renderUsuarios();
+  }catch(e){
+    const msgs={'auth/email-already-in-use':'Este email ya está registrado','auth/invalid-email':'Email inválido','auth/weak-password':'Contraseña muy débil'};
+    errEl.textContent=msgs[e.code]||'Error: '+e.message;
+    errEl.style.display='block';
+  }
+}
+
+async function renderUsuarios(){
+  const el=document.getElementById('usuarios-list');
+  if(!el) return;
+  el.innerHTML='<div style="text-align:center;padding:24px;color:var(--text-muted)">Cargando...</div>';
+  try{
+    const usuarios=await window.AUTH.getUsuarios();
+    if(!usuarios.length){ el.innerHTML='<div style="text-align:center;padding:48px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px">&#128100;</div>Sin usuarios</div>'; return; }
+    el.innerHTML='<div style="background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden">'
+      +usuarios.map(u=>{
+        const sucNombre={'todas':'Todas','neuquen':'Neuquén','bariloche':'Bariloche','sanmartin':'San Martín'}[u.sucursal]||u.sucursal||'—';
+        const activo=u.activo!==false;
+        return '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border)">'
+          +'<div style="width:40px;height:40px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#00667a;flex-shrink:0">'+(u.nombre?u.nombre[0].toUpperCase():'?')+'</div>'
+          +'<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--text)">'+u.nombre+'</div>'
+          +'<div style="font-size:12px;color:var(--text-secondary)">'+u.email+' &bull; '+sucNombre+'</div></div>'
+          +'<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;'+(u.rol==='admin'?'background:#e0f2f5;color:#00667a':'background:#f5f5f5;color:#666')+'">'+( u.rol==='admin'?'Admin':'Operador')+'</span>'
+          +'<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;'+(activo?'background:#f0fdf4;color:#15803d':'background:#fff0f0;color:#b91c1c')+'">'+(activo?'Activo':'Inactivo')+'</span>'
+          +(activo?'<button data-uid="'+u.uid+'" onclick="desactivarUsuario(this.dataset.uid)" style="padding:6px 12px;border:1px solid #fca5a5;border-radius:6px;background:#fff;color:#b91c1c;font-size:12px;font-weight:600;cursor:pointer">Desactivar</button>':'')
+          +'</div>';
+      }).join('')+'</div>';
+  }catch(e){ el.innerHTML='<div style="padding:24px;color:red">Error: '+e.message+'</div>'; }
+}
+
+async function desactivarUsuario(uid){
+  if(!confirm('¿Desactivar este usuario? Ya no podrá ingresar.')) return;
+  await window.AUTH.desactivarUsuario(uid);
+  toast('Usuario desactivado');
+  renderUsuarios();
+}
+
 async function refreshAll(){
   actualizarSucursalUI();
   if(currentView==='dashboard') renderDashboard();
@@ -1426,13 +1654,24 @@ async function refreshAll(){
 }
 
 window.addEventListener('load',()=>{
-  buildSucursalScreen();
-  if(sucursalActual && SUCURSALES[sucursalActual]){
-    actualizarSucursalUI();
-    document.getElementById('suc-screen').classList.add('hidden');
-    document.getElementById('app-layout').style.display='flex';
-    renderDashboard();
-  }
+  // La pantalla de login se muestra hasta que el usuario ingrese
+  window.addEventListener('auth-ready', (e) => {
+    const usuario = e.detail;
+    buildSucursalScreen();
+    if(sucursalActual && SUCURSALES[sucursalActual]){
+      actualizarSucursalUI();
+      document.getElementById('suc-screen').classList.add('hidden');
+      document.getElementById('app-layout').style.display='flex';
+      renderDashboard();
+    }
+    // Mostrar nombre en sidebar
+    const sbName = document.getElementById('sb-name');
+    if(sbName && usuario?.nombre) sbName.textContent = (SUCURSALES[sucursalActual]?.nombre||usuario.nombre);
+    // Si es operador, redirigir a la app de campo
+    if(usuario?.rol === 'operador') {
+      window.location.href = 'index.html';
+    }
+  });
 
   const initFB=()=>{
     refreshAll();
