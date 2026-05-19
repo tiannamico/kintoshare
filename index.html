@@ -2131,6 +2131,15 @@ window.addEventListener('load',()=>{
     });
   });
 });
+
+function actualizarTextoBtnPorFecha(){
+  const btn = document.getElementById('save-btn');
+  if(btn && btn.style.display !== 'none') {
+    btn.textContent = 'Guardar entrega';
+    btn.style.background = '';
+  }
+}
+
 // ── Funciones faltantes restauradas ─────────────────────────────────────────
 function actualizarUIsSucursal(){
   if(!sucursalActual) return;
