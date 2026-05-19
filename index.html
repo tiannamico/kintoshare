@@ -1699,7 +1699,7 @@ function actualizarSaveBtn(){
   if(ub) ub.style.display='none';
   if(pb) pb.style.display='none';
 
-  } else if(p?.estado==='completo'){
+  if(p?.estado==='completo'){
     // Planilla completa: solo mostrar botón de desbloqueo
     btn.style.display='none';
     if(ub){
@@ -1989,3 +1989,146 @@ async function guardarPlanilla(){
 
   const esEntrega=tabActual==='entrega';
   const nuevoEstado = esEntrega ? 'proceso' : 'completo';
+
+  // Guardar
+  try {
+    await dbSave(planilla);
+  } catch(e) {
+    if(e.name==='QuotaExceededError') toast('Almacenamiento lleno. Exporta planillas antiguas.');
+    else toast('Error: '+e.message);
+    return;
+  }
+
+  entregaGuardada = true;
+  actualizarSaveBtn();
+  actualizarBloqueos();
+
+  if(esEntrega){
+    toast('Entrega guardada ✓');
+    // Si tiene fecha de devolución, ir al tab devolución
+    if(gv('f-fecha-d2')||gv('f-fecha-d')) setTab('devolucion');
+  } else {
+    toast('Devolución guardada ✓ — Planilla completa');
+    setTimeout(()=>volverHome(), 1500);
+  }
+}
+
+// ═══════════════════════════════════════
+// SUCURSALES
+// ═══════════════════════════════════════
+
+// ── Funciones de vista operador ───────────────────────────────────────────
+function buildSucursalView(){
+  const cards = document.getElementById('suc-cards');
+  if(!cards) return;
+  cards.innerHTML = '';
+  Object.entries(SUCURSALES).forEach(([key, suc]) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#fff;border-radius:12px;border:1px solid #d0e4e8;padding:18px;cursor:pointer;display:flex;align-items:center;gap:14px;-webkit-tap-highlight-color:rgba(0,102,122,0.1)';
+    card.innerHTML = '<div style="font-size:32px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#e0f2f5;flex-shrink:0">'+suc.emoji+'</div>'
+      +'<div><div style="font-size:18px;font-weight:700;color:#003d4d">'+suc.nombre+'</div>'
+      +'<div style="font-size:12px;color:#888;margin-top:3px">'+suc.lugares.join(' · ')+'</div></div>';
+    card.addEventListener('touchend', function(e){ e.preventDefault(); seleccionarSucursal(key); });
+    card.addEventListener('click', function(){ seleccionarSucursal(key); });
+    cards.appendChild(card);
+  });
+}
+
+function seleccionarSucursal(key){
+  sucursalActual = key;
+  localStorage.setItem('kinto_sucursal', key);
+  actualizarUIsSucursal();
+  showView('home');
+  renderAgendaOperador();
+}
+
+function cambiarSucursal(){
+  showView('sucursal');
+}
+
+async function renderAgendaOperador(){
+  const agEl = document.getElementById('agenda-operador');
+  if(!agEl) return;
+  const db = await dbLoadAll();
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const hoyStr = hoy.toISOString().split('T')[0];
+  const pasado = new Date(hoy); pasado.setDate(hoy.getDate()+30);
+  const datos = sucursalActual ? db.filter(p=>p.sucursal===sucursalActual) : db;
+  const hoyCount = datos.filter(p=>p.fecha_e===hoyStr||p.fecha_d===hoyStr).length;
+  const statHoy=document.getElementById('stat-hoy'); if(statHoy) statHoy.textContent=hoyCount;
+  const statProceso=document.getElementById('stat-proceso'); if(statProceso) statProceso.textContent=datos.filter(p=>p.estado==='proceso').length;
+  const statCompleto=document.getElementById('stat-completo'); if(statCompleto) statCompleto.textContent=datos.filter(p=>p.estado==='completo').length;
+  const eventos=[];
+  datos.forEach(p=>{
+    if(p.fecha_e){const fe=new Date(p.fecha_e+'T12:00:00');fe.setHours(0,0,0,0);if(fe>=hoy&&fe<pasado)eventos.push({tipo:'entrega',fecha:p.fecha_e,hora:p.hora_e||'',nombre:(p.nombre||'')+' '+(p.apellido||''),modelo:p.modelo||'',dominio:p.dominio||'',lugar:p.lugar_e||'',id:p.id,esHoy:p.fecha_e===hoyStr});}
+    if(p.fecha_d&&p.estado==='proceso'){const fd=new Date(p.fecha_d+'T12:00:00');fd.setHours(0,0,0,0);if(fd>=hoy&&fd<pasado)eventos.push({tipo:'devolucion',fecha:p.fecha_d,hora:p.hora_d||'',nombre:(p.nombre||'')+' '+(p.apellido||''),modelo:p.modelo||'',dominio:p.dominio||'',lugar:p.lugar_d||'',id:p.id,esHoy:p.fecha_d===hoyStr});}
+  });
+  eventos.sort((a,b)=>a.esHoy===b.esHoy?(a.hora>b.hora?1:-1):a.esHoy?-1:1);
+  const hoyEvs=eventos.filter(e=>e.esHoy);
+  const proxEvs=eventos.filter(e=>!e.esHoy);
+  function cardEvento(e){
+    const isEntrega=e.tipo==='entrega';
+    const bc=isEntrega?'#22c55e':'#f97316';
+    return '<div data-eid="'+e.id+'" onclick="abrirPlanilla(this.dataset.eid)" style="background:#fff;border-radius:12px;border:1px solid #e0e0e0;border-left:4px solid '+bc+';padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer">'
+      +'<div style="text-align:center;min-width:48px"><div style="font-size:16px;font-weight:800;color:#00667a">'+(e.hora||'--:--')+'</div>'
+      +'<div style="font-size:9px;color:#aaa;font-weight:600;text-transform:uppercase;margin-top:1px">'+(isEntrega?'Entrega':'Devoluc.')+'</div></div>'
+      +'<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:#1a2332;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+e.nombre.trim()+'</div>'
+      +'<div style="font-size:12px;color:#888;margin-top:2px">'+e.modelo+' <strong>'+e.dominio+'</strong>'+(e.esHoy?'':' &bull; '+new Date(e.fecha+'T12:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short'}))+'</div>'
+      +'<div style="font-size:11px;color:#aaa;margin-top:1px">'+e.lugar+'</div></div>'
+      +'<span style="font-size:20px">'+(isEntrega?'&#128666;':'&#128660;')+'</span></div>';
+  }
+  let out='';
+  if(hoyEvs.length) out+='<div style="font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px">&#128197; Hoy — '+new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'})+'</div>'+hoyEvs.map(cardEvento).join('');
+  if(proxEvs.length) out+='<div style="font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;margin-top:'+(hoyEvs.length?'16px':'0')+'">&#128336; Próximos</div>'+proxEvs.map(cardEvento).join('');
+  if(!hoyEvs.length&&!proxEvs.length) out='<div style="text-align:center;padding:32px 20px;color:#aaa"><div style="font-size:40px;margin-bottom:12px">&#128197;</div><div style="font-size:16px;font-weight:700;color:#666;margin-bottom:6px">Sin movimientos</div><div style="font-size:13px">No hay entregas ni devoluciones próximas</div></div>';
+  if(datos.length>eventos.length) out+='<div style="text-align:center;margin-top:12px"><button onclick="toggleBusqueda()" style="background:none;border:1.5px solid #d0e4e8;border-radius:20px;padding:8px 20px;font-size:12px;font-weight:600;color:#00667a;cursor:pointer">&#128269; Ver todas las planillas</button></div>';
+  agEl.innerHTML=out;
+}
+
+function toggleBusqueda(){
+  const div=document.getElementById('busqueda-avanzada');
+  if(!div) return;
+  const v=div.style.display!=='none';
+  div.style.display=v?'none':'block';
+  if(!v) renderHome();
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  window.addEventListener('auth-ready',(e)=>{
+    const usuario=e.detail;
+    if(window._authSucursal&&SUCURSALES[window._authSucursal]){
+      sucursalActual=window._authSucursal;
+      localStorage.setItem('kinto_sucursal',sucursalActual);
+    }
+    setTimeout(()=>{
+      buildSucursalView();
+      if(sucursalActual&&SUCURSALES[sucursalActual]){
+        actualizarUIsSucursal();
+        showView('home');
+        renderAgendaOperador();
+      } else {
+        showView('sucursal');
+      }
+      if(usuario?.nombre){
+        const sb=document.getElementById('home-suc-name');
+        if(sb&&sucursalActual) sb.textContent=(SUCURSALES[sucursalActual]?.nombre||'')+' — '+usuario.nombre;
+      }
+    },100);
+    window.addEventListener('firebase-ready',()=>{
+      if(window.FB){
+        window.FB.onList(planillas=>{
+          const local=dbGetLocal();
+          planillas.forEach(p=>{const i=local.findIndex(x=>x.id===p.id);if(i>=0)local[i]={...local[i],...p};else local.unshift(p);});
+          dbSetLocal(local);
+          const hv=document.getElementById('view-home');
+          if(hv&&hv.classList.contains('active')) renderAgendaOperador();
+        });
+        setTimeout(syncPending,2000);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
