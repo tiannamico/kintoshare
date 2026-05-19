@@ -2225,6 +2225,25 @@ async function renderCalendar(){
   if(calSelectedDay) calSelectDay(calSelectedDay);
 }
 
+// ── Helpers básicos ───────────────────────────────────────────────────────────
+function gv(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+function sv(id,val){ const el=document.getElementById(id); if(el) el.value=val||''; }
+
+function toast(msg, dur){
+  dur = dur||3000;
+  const t = document.getElementById('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>{ t.style.display='none'; }, dur);
+}
+
+function volverHome(){
+  showView('home');
+  renderAgendaOperador();
+}
+
 </script>
 </body>
 </html>
