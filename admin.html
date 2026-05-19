@@ -34,7 +34,8 @@
 }
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+html{overflow-x:auto}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-width:900px}
 a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer}
 input,select,textarea{font-family:inherit}
@@ -47,6 +48,7 @@ input,select,textarea{font-family:inherit}
 /* SIDEBAR */
 .sidebar{
   width:var(--sidebar-w);
+  min-width:var(--sidebar-w);
   background:var(--primary);
   display:flex;
   flex-direction:column;
