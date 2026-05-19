@@ -2131,6 +2131,91 @@ window.addEventListener('load',()=>{
     });
   });
 });
+// ── Funciones faltantes restauradas ─────────────────────────────────────────
+function actualizarUIsSucursal(){
+  if(!sucursalActual) return;
+  const suc = SUCURSALES[sucursalActual];
+  if(!suc) return;
+  // Barra home
+  const nameEl = document.getElementById('home-suc-name');
+  if(nameEl) nameEl.textContent = suc.nombre;
+  // Selects de lugar
+  ['f-lugar-e','f-lugar-d','f-lugar-e2','f-lugar-d2'].forEach(id => {
+    const sel = document.getElementById(id);
+    if(!sel) return;
+    const currentVal = sel.value;
+    sel.innerHTML = '<option value="">-- Seleccionar --</option>';
+    suc.lugares.forEach(lugar => {
+      const opt = document.createElement('option');
+      opt.value = lugar; opt.textContent = lugar;
+      if(lugar === currentVal) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function updateModelos(){
+  const sel = document.getElementById('f-modelo');
+  if(!sel) return;
+  const modelos = {
+    auto: ['Yaris','Yaris Cross','Corolla','Corolla Cross'],
+    camioneta: ['Hilux C/D','Hilux C/S','Hiace','SW4']
+  };
+  const currentVal = sel.value;
+  sel.innerHTML = '<option value="">-- Seleccionar --</option>';
+  (modelos[tipoVeh]||modelos.auto).forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m; opt.textContent = m;
+    if(m === currentVal) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  sel.onchange = function(){ updateDiags(null); };
+}
+
+async function renderCalendar(){
+  const grid = document.getElementById('cal-grid');
+  const title = document.getElementById('cal-month-title');
+  if(!grid||!title) return;
+  const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const dSem = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
+  title.textContent = meses[calMonth]+' '+calYear;
+  const db = await dbLoadAll();
+  const datos = sucursalActual ? db.filter(p=>p.sucursal===sucursalActual) : db;
+  const evMap = {};
+  datos.forEach(p=>{
+    if(p.fecha_e){
+      const k=p.fecha_e; if(!evMap[k])evMap[k]=[];
+      const hoyD=new Date(); hoyD.setHours(0,0,0,0);
+      const feD=new Date(p.fecha_e+'T12:00:00'); feD.setHours(0,0,0,0);
+      const tipo=feD>hoyD?'p':'e';
+      if(evMap[k].indexOf(tipo)<0) evMap[k].push(tipo);
+    }
+    if(p.fecha_d){
+      const k2=p.fecha_d; if(!evMap[k2])evMap[k2]=[];
+      if(evMap[k2].indexOf('d')<0) evMap[k2].push('d');
+    }
+  });
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const dim=new Date(calYear,calMonth+1,0).getDate();
+  const prevDays=new Date(calYear,calMonth,0).getDate();
+  const today=new Date(); today.setHours(0,0,0,0);
+  let h=dSem.map(d=>'<div class="cal-dow">'+d+'</div>').join('');
+  for(var i=firstDay-1;i>=0;i--) h+='<div class="cal-day other-month"><span class="cal-num">'+(prevDays-i)+'</span></div>';
+  for(var d=1;d<=dim;d++){
+    const ds=calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const isToday=new Date(calYear,calMonth,d).getTime()===today.getTime();
+    const evs=evMap[ds]||[];
+    const dots=[...new Set(evs)].map(t=>'<div class="cal-dot '+(t==='e'?'cal-dot-e':t==='d'?'cal-dot-d':'cal-dot-p')+'"></div>').join('');
+    var dCls='cal-day'+(isToday?' today':'')+(ds===calSelectedDay?' selected':'');
+    h+='<div class="'+dCls+'" data-ds="'+ds+'" onclick="calSelectDay(this.getAttribute(&quot;data-ds&quot;))">'
+      +'<span class="cal-num">'+d+'</span><div class="cal-dots">'+dots+'</div></div>';
+  }
+  const rem=(firstDay+dim)%7;
+  if(rem) for(var j=1;j<=7-rem;j++) h+='<div class="cal-day other-month"><span class="cal-num">'+j+'</span></div>';
+  grid.innerHTML=h;
+  if(calSelectedDay) calSelectDay(calSelectedDay);
+}
+
 </script>
 </body>
 </html>
