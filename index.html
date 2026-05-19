@@ -2097,12 +2097,14 @@ function toggleBusqueda(){
 window.addEventListener('load',()=>{
   window.addEventListener('auth-ready',(e)=>{
     const usuario=e.detail;
+    console.log('auth-ready fired, usuario:', usuario?.email);
     if(window._authSucursal&&SUCURSALES[window._authSucursal]){
       sucursalActual=window._authSucursal;
       localStorage.setItem('kinto_sucursal',sucursalActual);
     }
     setTimeout(()=>{
       buildSucursalView();
+      console.log('sucursalActual:', sucursalActual);
       if(sucursalActual&&SUCURSALES[sucursalActual]){
         actualizarUIsSucursal();
         showView('home');
